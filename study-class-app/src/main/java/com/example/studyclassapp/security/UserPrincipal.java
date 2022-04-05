@@ -1,24 +1,41 @@
 package com.example.studyclassapp.security;
 
+import com.example.studyclassapp.modal.user.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+@Data
 public class UserPrincipal implements UserDetails, OAuth2User {
 
-    private Long id;
-    private String email;
-    private String password;
+    private final Long id;
+    private final String email;
+    private final String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
 
-    public static UserPrincipal create(User)
+    public static UserPrincipal create(User user) {
+        String role = user.getRoles().iterator().next().toString();
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword());
+    }
+
+    public static UserPrincipal create(User user, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = create(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
-        return authorities;
+        return attributes;
     }
 
     @Override

@@ -1,20 +1,32 @@
 package com.example.studyclassapp.security.jwt;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.studyclassapp.exception.JwtAuthenticationException;
+import com.example.studyclassapp.modal.user.User;
+import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JWTProviderImpl implements JWTProvider{
+    @Qualifier("userDetailsServiceImpl") @Lazy
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.header}")
     private String jwtHeader;
@@ -25,6 +37,10 @@ public class JWTProviderImpl implements JWTProvider{
     @Value("${jwt.expiration}")
     private long validitySeconds;
 
+    @PostConstruct
+    public void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
 
     @Override
     public String createToken(String username, String role) {
@@ -43,13 +59,19 @@ public class JWTProviderImpl implements JWTProvider{
 
     @Override
     public boolean validateToken(String token) {
-        Jws<Claims> claimsJwts = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-        return !claimsJwts.getBody().getExpiration().before(new Date());
+        try {
+            Jws<Claims> claimsJwts = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return !claimsJwts.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException exception) {
+            throw new JwtAuthenticationException("This token is invalid", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     @Override
     public Authentication getAuthentication(String token) {
-        return null;
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUseranme(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     @Override

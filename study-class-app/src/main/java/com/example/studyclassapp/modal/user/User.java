@@ -19,6 +19,10 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private String password;
+    private String activationCode;
+    private String avatarURL;
+    private boolean active;
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
