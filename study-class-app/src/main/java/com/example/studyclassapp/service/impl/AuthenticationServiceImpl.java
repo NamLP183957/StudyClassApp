@@ -1,5 +1,6 @@
 package com.example.studyclassapp.service.impl;
 
+import com.example.studyclassapp.exception.ApiRequestException;
 import com.example.studyclassapp.exception.EmailException;
 import com.example.studyclassapp.exception.PasswordException;
 import com.example.studyclassapp.modal.user.AuthProvider;
@@ -11,8 +12,10 @@ import com.example.studyclassapp.service.AuthenticationService;
 import com.example.studyclassapp.service.email.MailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,6 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final JWTProvider jwtProvider;
     private final MailSender mailSender;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${hostname}")
     private String hostname;
@@ -55,10 +59,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String email = user.getEmail();
         User userFromDB = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (userFromDB != null) {
             throw new EmailException("This email is already used");
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(false);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setProvider(AuthProvider.LOCAL);
@@ -72,6 +77,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         attributes.put("firstName", user.getFirstName());
         attributes.put("registrationUrl", "http://" + hostname + "/active/" + user.getActivationCode());
         mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
-        return "User Register Successfully";
+        return "User register successfully, Please check email to active account";
+    }
+
+    @Override
+    public String activeCode(String code) {
+        User user = userRepository.findByActivationCode(code);
+
+        if (user == null) {
+            throw new ApiRequestException("Activation code not found", HttpStatus.NOT_FOUND);
+        }
+        user.setActive(true);
+        user.setActivationCode(null);
+        userRepository.save(user);
+        return "Active account successfull";
     }
 }

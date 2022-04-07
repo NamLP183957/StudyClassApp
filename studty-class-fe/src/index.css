@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
+    font-family: 'Trocchi', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+
+  --light-bg1-color: rgb(49, 201, 201);
+  --light-font1-color: white;
+  --light-bg2-color: white;
+  --light-font2-color: black;
+
+  --dark-bg1-color: rgb(134, 134, 134);
+  --dark-font1-color: white;
+  --dark-bg2-color: black;
+  --dark-font2-color: white;
+}
+
+.light-bg1 {
+  background-color: var(--light-bg1-color);
+  color: var(--light-font1-color);
+}
+
+.light-bg2 {
+  background-color: var(--light-bg2-color);
+  color: var(--light-font2-color);
+}
+
+.dark-bg1 {
+  background-color: var(--dark-bg1-color);
+  color: var(--dark-font1-color);
+}
+
+.dark-bg2 {
+  background-color: var(--dark-bg2-color);
+  color: var(--dark-font2-color);
+}
+
+.font-light {
+  color: white;
+}
+
+.font-dark {
+  color: black;
+}

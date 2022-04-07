@@ -26,4 +26,8 @@ public class AuthenticationMapper {
         response.setUserRole(attributes.get("userRole"));
         return response;
     }
+
+    public String activeAccount(String code) {
+        return authenticationService.activeCode(code);
+    }
 }
