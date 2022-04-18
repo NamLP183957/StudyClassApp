@@ -3,6 +3,7 @@ package com.example.studyclassapp.modal;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,16 +16,17 @@ public class Test {
     private Long id;
 
     private String name;
-    private Long startTime;
+//    private Date startTime;
     private Long leng;
-    private Long closeTime;
+//    private Date closeTime;
     private String note;
 
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Class classs;
 
-    @OneToMany(mappedBy = "test")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "test_id", referencedColumnName = "id")
     private List<Question> questionList;
 
 }

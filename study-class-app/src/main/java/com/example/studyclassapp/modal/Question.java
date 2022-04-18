@@ -18,11 +18,12 @@ public class Question {
     private Integer mark;
     private String imageURL;
 
-    @ManyToOne
-    @JoinColumn(name = "test_id")
-    private Test test;
+//    @ManyToOne
+//    @JoinColumn(name = "test_id")
+//    private Test test;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     private List<Choice> choiceList;
 
 }

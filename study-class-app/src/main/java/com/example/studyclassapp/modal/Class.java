@@ -17,6 +17,7 @@ public class Class {
 
     private String name;
     private String decription;
+    private String code;
 
     @Enumerated(EnumType.STRING)
     private ClassScope scope;
@@ -28,6 +29,6 @@ public class Class {
     @ManyToMany(mappedBy = "joinClass")
     private List<User> joinUser;
 
-    @OneToMany(mappedBy = "classs")
+    @OneToMany(mappedBy = "classs", fetch = FetchType.LAZY)
     private List<Test> testList;
 }

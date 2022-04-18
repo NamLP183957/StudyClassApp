@@ -24,4 +24,14 @@ public class ApiExceptionHandler {
     public ResponseEntity<String> handleApiRequestException(ApiRequestException apiRequestException) {
         return ResponseEntity.status(apiRequestException.getHttpStatus()).body(apiRequestException.getMessage());
     }
+
+    @ExceptionHandler(ClassroomNotFoundException.class)
+    public ResponseEntity<String> handleClassroomNotFoundException(ClassroomNotFoundException classroomNotFoundException) {
+        return ResponseEntity.status(classroomNotFoundException.getHttpStatus()).body(classroomNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(ClassPermissionException.class)
+    public ResponseEntity<String> handleClassPermissionException(ClassPermissionException classPermissionException) {
+        return ResponseEntity.status(classPermissionException.getHttpStatus()).body(classPermissionException.getMessage());
+    }
 }

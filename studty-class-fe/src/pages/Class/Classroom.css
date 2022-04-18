@@ -1,0 +1,31 @@
+.account-container {
+    padding: 0;
+    min-height: 350px;
+
+}
+
+.account-sidebar-link {
+    margin: 10px 0 10px 0;
+    padding: 0;
+    color: black;
+    padding: 10px;
+    background-color: rgb(228, 216, 216);
+    border-radius: 5px;
+}
+
+.account-sidebar-link a {
+    font-weight: bold;
+    color: black;
+    transition: .3s;
+}
+
+.account-sidebar-link a:hover {
+    color: #00A1DF;
+    text-decoration: none;
+}
+
+.is-active {
+    background-color: var(--light-bg1-color);
+    color: var(--light-font1-color);
+    text-decoration: none;
+}

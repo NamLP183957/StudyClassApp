@@ -1,9 +1,15 @@
 import { combineReducers } from "redux";
 
 import authReducer from './AuthReducer'
+import classReducer from './ClassResucer'
+import testReducer from './TestReducer'
+import questionReducer from './QuestionReducer'
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    class: classReducer,
+    test: testReducer,
+    question: questionReducer
 })
 
 type RootReducerType = typeof rootReducer;

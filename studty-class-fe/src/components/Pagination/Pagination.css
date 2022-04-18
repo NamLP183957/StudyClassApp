@@ -1,0 +1,18 @@
+.btn-disabled {
+    background-color: rgb(243, 240, 240);
+}
+
+.btn-focus {
+    background-color: var(--light-bg1-color);
+    color: white;
+}
+
+.btn-active {
+    background-color: white;
+}
+
+.btn-square {
+    width: 35px;
+    height: 40px;
+    size: 20px;
+}

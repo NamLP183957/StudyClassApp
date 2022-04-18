@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
+import Class from '../Class/Classroom';
 import Homepage from '../Homepage/Homepage';
 import LandingPage from '../LandingPage/LandingPage';
 import Login from '../Login/Login';
@@ -17,6 +18,7 @@ function App() {
         <Route path='/homepage' exact component={() => <Homepage />} />
         <Route path='/register' exact component={() => <Register />} />
         <Route path='/active/:code' exact component={Login} />
+        <Route path='/class/:id' component={Class} />
       </Switch>
     </div>
   );

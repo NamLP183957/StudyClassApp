@@ -16,9 +16,9 @@ public class Choice {
     private String title;
     private String imageURL;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
+//    @ManyToOne
+//    @JoinColumn(name = "question_id")
+//    private Question question;
 
     private boolean isAnswer;
 }
