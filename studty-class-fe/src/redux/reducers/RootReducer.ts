@@ -4,12 +4,14 @@ import authReducer from './AuthReducer'
 import classReducer from './ClassResucer'
 import testReducer from './TestReducer'
 import questionReducer from './QuestionReducer'
+import testSubmitReducer from './TeestSubmitResucer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     class: classReducer,
     test: testReducer,
-    question: questionReducer
+    question: questionReducer,
+    testSubmit: testSubmitReducer
 })
 
 type RootReducerType = typeof rootReducer;

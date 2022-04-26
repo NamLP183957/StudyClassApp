@@ -8,6 +8,7 @@ import { ClassResponse } from '../../types/class/ClassResponse';
 import AddTest from './AddTest/AddTest';
 import './Classroom.css'
 import ListTest from './ListTest/ListTest';
+import Test from './Test/Test';
 
 const Classroom: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
     const classId = match.params.id;
@@ -61,7 +62,7 @@ const Classroom: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
                                 <div className="col-sm-8">
                                     <Route path="/class/:id/list-test" exact component={(props: RouteComponentProps<{ id: string }>) => <ListTest {...props} />} />
                                     <Route path="/class/:id/add-test" exact component={AddTest} />
-
+                                    <Route path="/class/:id/test/:testId" exact component={Test} />
                                 </div>
                             </div>
 

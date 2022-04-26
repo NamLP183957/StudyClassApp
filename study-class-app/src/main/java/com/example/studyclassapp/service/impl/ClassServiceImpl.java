@@ -1,6 +1,7 @@
 package com.example.studyclassapp.service.impl;
 
 import com.example.studyclassapp.dto.clas.ClassRequest;
+import com.example.studyclassapp.dto.pagination.PaginationRequest;
 import com.example.studyclassapp.exception.ClassPermissionException;
 import com.example.studyclassapp.exception.ClassroomNotFoundException;
 import com.example.studyclassapp.modal.Class;
@@ -10,10 +11,14 @@ import com.example.studyclassapp.repository.ClassRepository;
 import com.example.studyclassapp.repository.UserRepository;
 import com.example.studyclassapp.service.ClassService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,5 +77,12 @@ public class ClassServiceImpl implements ClassService {
         }
 
         return false;
+    }
+
+    @Override
+    public Page<Class> getListClass(String email, PaginationRequest paginationRequest) {
+        User user = userRepository.findByEmail(email);
+        Pageable pageable = PageRequest.of(paginationRequest.getPage(), paginationRequest.getItemsPerPage());
+        return classRepository.findByCreateUserAndJoinUserContaining(user, pageable);
     }
 }

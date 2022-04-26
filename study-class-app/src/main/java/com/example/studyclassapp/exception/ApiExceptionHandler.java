@@ -34,4 +34,9 @@ public class ApiExceptionHandler {
     public ResponseEntity<String> handleClassPermissionException(ClassPermissionException classPermissionException) {
         return ResponseEntity.status(classPermissionException.getHttpStatus()).body(classPermissionException.getMessage());
     }
+
+    @ExceptionHandler(TestSubmitException.class)
+    public ResponseEntity<String> handleTestSubmitException(TestSubmitException testSubmitException) {
+        return ResponseEntity.badRequest().body(testSubmitException.getMessage());
+    }
 }

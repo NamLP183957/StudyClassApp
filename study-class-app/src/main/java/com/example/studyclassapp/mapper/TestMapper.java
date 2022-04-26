@@ -37,9 +37,9 @@ public class TestMapper {
                 .collect(Collectors.toList());
     }
 
-    PaginationResponse consertToDtoResponse(Page<Test> testsPage) {
-        List<Test> testList = testsPage.getContent();
+    PaginationResponse convertToDtoResponse(Page<Test> testsPage) {
         PaginationResponse paginationResponse = new PaginationResponse();
+        List<Test> testList = testsPage.getContent();
         paginationResponse.setContent(convertToListDtoResponse(testList));
         paginationResponse.setTotalPages(testsPage.getTotalPages());
         return paginationResponse;
@@ -50,6 +50,14 @@ public class TestMapper {
     }
 
     public PaginationResponse getTestPagination(String email, Long classId, PaginationRequest paginationRequest) {
-        return consertToDtoResponse(testService.getTestPagination(email, classId, paginationRequest));
+        return convertToDtoResponse(testService.getTestPagination(email, classId, paginationRequest));
+    }
+
+    public PaginationResponse searchTestPagination(String email, Long classId, String searchKey, PaginationRequest paginationRequest) {
+        return convertToDtoResponse(testService.searchTestPagination(email, classId, searchKey, paginationRequest));
+    }
+
+    public TestResponse getTest(String email, Long testId) {
+        return convertToDtoResponse(testService.getTest(email, testId));
     }
 }

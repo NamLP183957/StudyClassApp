@@ -22,6 +22,12 @@ public class TestController {
 
     private final TestMapper testMapper;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getTest(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                          @PathVariable(name = "id")Long testId) {
+        return ResponseEntity.ok(testMapper.getTest(userPrincipal.getEmail(), testId));
+    }
+
     @PostMapping()
     public ResponseEntity<Object> addTest(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                           @RequestBody @Valid TestRequest testRequest,
@@ -39,4 +45,15 @@ public class TestController {
                                                  @RequestBody PaginationRequest paginationRequest) {
         return ResponseEntity.ok(testMapper.getTestPagination(userPrincipal.getEmail(), classId, paginationRequest));
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<Object> searchTest(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                             @RequestParam("class-id")Long clasId,
+                                             @RequestParam("search-key")String searchKey,
+                                             @RequestBody PaginationRequest paginationRequest) {
+        return ResponseEntity.ok(testMapper.searchTestPagination(userPrincipal.getEmail(),
+                clasId, searchKey, paginationRequest));
+    }
+
+
 }

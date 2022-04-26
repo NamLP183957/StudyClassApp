@@ -19,11 +19,14 @@ code {
   --light-font1-color: white;
   --light-bg2-color: white;
   --light-font2-color: black;
+  --gray-bg3-color: rgb(223, 217, 217);
+  --gray-font3-color: black
 
   --dark-bg1-color: rgb(134, 134, 134);
   --dark-font1-color: white;
   --dark-bg2-color: black;
   --dark-font2-color: white;
+
 }
 
 .light-bg1 {
@@ -44,6 +47,11 @@ code {
 .dark-bg2 {
   background-color: var(--dark-bg2-color);
   color: var(--dark-font2-color);
+}
+
+.gray-bg3 {
+  background-color: var(--gray-bg3-color);
+  color: var(--gray-font3-color);
 }
 
 .font-light {

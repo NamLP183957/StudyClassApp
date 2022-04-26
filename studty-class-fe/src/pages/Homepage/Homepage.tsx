@@ -12,7 +12,9 @@ const Homepage: FC = () => {
     }, [])
 
     return (
-        <div>Homepage</div>
+        <div className="container">
+            Home page
+        </div>
     )
 }
 

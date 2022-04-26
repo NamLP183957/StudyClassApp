@@ -27,6 +27,7 @@ const PaginationItem: FC<PropsType> = ({ pagination, onChangePage }) => {
         <div>
             <button
                 className={currentPage <= 0 ? 'btn-square btn-disabled' : 'btn-square btn-active'}
+                style={{ boxShadow: '5px 5px 7px -7px rgba(0, 0, 0, 0.75)' }}
                 disabled={currentPage <= 0}
                 onClick={() => handleChangePage(0)}
             >
@@ -36,6 +37,7 @@ const PaginationItem: FC<PropsType> = ({ pagination, onChangePage }) => {
             <span> </span>
             <button
                 className={currentPage <= 0 ? 'btn-square btn-disabled' : 'btn-square btn-active'}
+                style={{ boxShadow: '5px 5px 7px -7px rgba(0, 0, 0, 0.75)' }}
                 disabled={currentPage <= 0}
                 onClick={() => handleChangePage(currentPage - 1)}
             >
@@ -44,7 +46,9 @@ const PaginationItem: FC<PropsType> = ({ pagination, onChangePage }) => {
             {listCurrentPage.map((page, index) => (
                 <button
                     className={currentPage === page ? 'btn-square btn-focus' : 'btn-square btn-active'}
+                    style={{ boxShadow: '5px 5px 7px -7px rgba(0, 0, 0, 0.75)' }}
                     onClick={() => handleChangePage(page)}
+                    key={index}
                 >
                     {page + 1}
                 </button>
@@ -52,6 +56,7 @@ const PaginationItem: FC<PropsType> = ({ pagination, onChangePage }) => {
 
             <button
                 className={currentPage >= totalPages - 1 ? 'btn-square btn-disabled' : 'btn-square btn-active'}
+                style={{ boxShadow: '5px 5px 7px -7px rgba(0, 0, 0, 0.75)' }}
                 onClick={() => handleChangePage(currentPage + 1)}
                 disabled={currentPage >= totalPages - 1}
             >
@@ -61,6 +66,7 @@ const PaginationItem: FC<PropsType> = ({ pagination, onChangePage }) => {
             <span>  </span>
             <button
                 className={currentPage >= totalPages - 1 ? 'btn-square btn-disabled' : 'btn-square btn-active'}
+                style={{ boxShadow: '5px 5px 7px -7px rgba(0, 0, 0, 0.75)' }}
                 onClick={() => handleChangePage(totalPages - 1)}
                 disabled={currentPage >= totalPages - 1}
             >

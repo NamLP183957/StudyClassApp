@@ -1,7 +1,6 @@
-import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons"
 import { PaginationResponse } from "../../types/pagination/PaginationResponse"
 import { TestResponse } from "../../types/test/TestResponse"
-import { TestActionType, TESTS_FETCH_FAILURE, TESTS_FETCH_SUCCESS, TEST_ADDED_FAILURE, TEST_ADDED_SUCCESS, TEST_LOADING } from "../action-types/TestActionType"
+import { TestActionType, TESTS_FETCH_FAILURE, TESTS_FETCH_SUCCESS, TEST_ADDED_FAILURE, TEST_ADDED_SUCCESS, TEST_FETCH_FAILURE, TEST_FETCH_SUCCESS, TEST_LOADING, TEST_SEARCH_FAILURE, TEST_SEARCH_SUCCESS } from "../action-types/TestActionType"
 
 export type InitialStateType = {
     loading: boolean
@@ -35,6 +34,18 @@ const reducer = (state: InitialStateType = initialState, action: TestActionType)
             return { ...state, loading: false, tests: action.payload, error: "" }
 
         case TESTS_FETCH_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case TEST_FETCH_SUCCESS:
+            return { ...state, loading: false, test: action.payload }
+
+        case TEST_FETCH_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case TEST_SEARCH_SUCCESS:
+            return { ...state, loading: false, tests: action.payload, error: "" }
+
+        case TEST_SEARCH_FAILURE:
             return { ...state, loading: false, error: action.payload }
 
         default:

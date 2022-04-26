@@ -35,4 +35,6 @@ public class ClassController {
                                            @AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity.ok(classMapper.getClassById(userPrincipal.getEmail(), id));
     }
+
+
 }

@@ -1,9 +1,9 @@
 package com.example.studyclassapp.modal;
 
+import com.example.studyclassapp.modal.question.Question;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,7 +25,7 @@ public class Test {
     @JoinColumn(name = "class_id")
     private Class classs;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id", referencedColumnName = "id")
     private List<Question> questionList;
 

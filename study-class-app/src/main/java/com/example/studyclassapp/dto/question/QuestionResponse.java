@@ -12,5 +12,7 @@ public class QuestionResponse {
     private String title;
     private Integer mark;
     private String imageURL;
+    private String type;
     private List<ChoiceResponse> choiceList;
+    private String answer;
 }

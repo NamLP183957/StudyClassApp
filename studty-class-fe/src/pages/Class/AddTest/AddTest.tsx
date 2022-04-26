@@ -3,13 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom'
-import AddQuestionModal from '../../../components/Modal/AddQuestionModal';
 import Spinner from '../../../components/Spinner/Spinner';
-import { QuestionAddedNew, QuestionSavedSuccess } from '../../../redux/actions/QuestionAction';
 import { AppStateType } from '../../../redux/reducers/RootReducer';
 import { TestRequest } from '../../../types/test/TestRequest';
 import { AddTest as AddTe } from '../../../redux/thunks/test-thunk'
-import EditQuestionModal from '../../../components/Modal/EditQuestionModal';
 import Question from './Question';
 import { QuestionRequest } from '../../../types/question/QuestionRequest';
 import './AddTest.css'
@@ -96,6 +93,7 @@ const AddTest: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
                                 placeholder='Description'
                                 name="note"
                                 rows={3}
+                                value={note}
                                 onChange={handleInputChange}
                                 className='form-control'
                             />
@@ -117,7 +115,12 @@ const AddTest: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
 
                     {questionList.map((question, index) => (
                         <div>
-                            <Question question={question} index={index} handleSaveQuestion={handleSaveQuestion} handleDeleteQuestion={handlDeleteQuestion} />
+                            <Question
+                                question={question}
+                                index={index}
+                                handleSaveQuestion={handleSaveQuestion}
+                                handleDeleteQuestion={handlDeleteQuestion}
+                            />
                             <br />
                         </div>
                     ))}
