@@ -1,0 +1,23 @@
+.class-card {
+    width: 23%;
+    margin-right: 2%;
+    margin-top: 3%;
+    box-shadow: 5px 5px 7px -7px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+}
+
+.class-card:hover {
+    background-color: var(--light-bg1-color);
+    color: var(--light-font1-color);
+}
+
+.class-card-footer {
+    display: none;
+    position: absolute;
+    top: 75%;
+    left: 35%;
+}
+
+.class-card:hover > .class-card-footer {
+    display: block;
+}

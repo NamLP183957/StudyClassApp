@@ -28,7 +28,7 @@ const TestSearchForm: FC<PropsType> = ({ handleSearch }) => {
             <input
                 type="text"
                 className='form-control'
-                placeholder='Search test...'
+                placeholder='Enter search key...'
                 value={searchKey}
                 onChange={handleOnInputChange}
             />

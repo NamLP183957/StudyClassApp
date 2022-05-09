@@ -13,10 +13,10 @@ public class ClassResponse {
     private Long id;
 
     private String name;
-    private String decription;
+    private String description;
     private String code;
 
     private ClassScope scope;
-    private List<TestResponse> testList;
+//    private List<TestResponse> testList;
     private UserResponse createUser;
 }

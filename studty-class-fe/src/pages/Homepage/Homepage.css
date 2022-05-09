@@ -1,0 +1,10 @@
+.class-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.pagination-container {
+    margin-top: 2%;
+    width: 100%;
+    text-align: center;
+}

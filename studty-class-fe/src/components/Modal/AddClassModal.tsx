@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { AppStateType } from '../../redux/reducers/RootReducer'
 import { ClassRequest } from '../../types/class/ClassRequest'
 
 type PropsType = {
@@ -7,9 +9,9 @@ type PropsType = {
 }
 
 const AddClassModal: FC<PropsType> = ({ setAddModalActive, addClassHandler }) => {
-    const [classRequest, setClassRequest] = useState<ClassRequest>({ name: '', description: '', scope: '' });
+    const [classRequest, setClassRequest] = useState<ClassRequest>({ name: '', description: '', scope: 'PRIVATE' });
     const { name, description, scope } = classRequest;
-
+    const error = useSelector((state: AppStateType) => state.class.error);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const { name, value } = event.target;
@@ -23,6 +25,7 @@ const AddClassModal: FC<PropsType> = ({ setAddModalActive, addClassHandler }) =>
                     <div className="modal-dialog modal-dialog-centered" role={"document"}>
                         <div className="modal-content">
                             <div className="modal-header">
+                                {error ? error : ""}
                                 <h2 className="modal-title b-2">Add Class</h2>
                                 <button type='button' className='close' onClick={() => setAddModalActive(false)}>
                                     <span aria-hidden="true">&times;</span>
@@ -61,8 +64,8 @@ const AddClassModal: FC<PropsType> = ({ setAddModalActive, addClassHandler }) =>
                                                 name='scope'
                                                 className='form-control'
                                                 onChange={handleInputChange}>
-                                                <option value="private">Private</option>
-                                                <option value="public">Public</option>
+                                                <option value="PRIVATE">Private</option>
+                                                <option value="PUBLIC">Public</option>
                                             </select>
                                         </div>
                                     </div>

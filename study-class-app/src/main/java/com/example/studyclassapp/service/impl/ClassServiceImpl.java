@@ -10,7 +10,10 @@ import com.example.studyclassapp.modal.user.User;
 import com.example.studyclassapp.repository.ClassRepository;
 import com.example.studyclassapp.repository.UserRepository;
 import com.example.studyclassapp.service.ClassService;
+import com.example.studyclassapp.service.email.MailSender;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +31,14 @@ import java.util.UUID;
 public class ClassServiceImpl implements ClassService {
     private final UserRepository userRepository;
     private final ClassRepository classRepository;
-
+    private final MailSender mailSender;
+    private Logger LOG = LoggerFactory.getLogger(this.getClass().getName());
 
     @Override
     public Class addClass(String email, Class clas) {
         User user = userRepository.findByEmail(email);
 
-        clas.setCode(UUID.randomUUID().toString().substring(6));
+        clas.setCode(UUID.randomUUID().toString().substring(0, 7));
         clas.setCreateUser(user);
         return classRepository.save(clas);
     }
@@ -50,7 +54,7 @@ public class ClassServiceImpl implements ClassService {
 
         Class clas = classFromDB.get();
 
-        if (clas.equals(ClassScope.PUBLIC)) {
+        if (clas.getScope().equals(ClassScope.PUBLIC)) {
             return clas;
         }
 
@@ -83,6 +87,60 @@ public class ClassServiceImpl implements ClassService {
     public Page<Class> getListClass(String email, PaginationRequest paginationRequest) {
         User user = userRepository.findByEmail(email);
         Pageable pageable = PageRequest.of(paginationRequest.getPage(), paginationRequest.getItemsPerPage());
-        return classRepository.findByCreateUserAndJoinUserContaining(user, pageable);
+        Page<Class> classPage = classRepository.getClassByUser(user.getId(), pageable);
+        return classPage;
+    }
+
+    @Override
+    public Page<Class> getListClassByKeyAndScope(String email, String key, String scope, PaginationRequest paginationRequest) {
+        Pageable pageable = PageRequest.of(paginationRequest.getPage(), paginationRequest.getItemsPerPage());
+        User user = userRepository.findByEmail(email);
+        if (key.equals("")) {
+            if (scope.equals("")) {
+                return classRepository.getClassByUser(user.getId(), pageable);
+            } else {
+                return classRepository.getClassBYUserAndScope(user.getId(), scope, pageable);
+            }
+        } else {
+            if (scope.equals("")) {
+                return classRepository.getClassByNameContaining(key, pageable);
+            } else{
+                return classRepository.getClassByNameContainingAndScope(key, ClassScope.valueOf(scope), pageable);
+            }
+        }
+    }
+
+    @Override
+    public Class joinClassByCode(String email, String code) {
+        Class clasFromDB = classRepository.getClassByCode(code);
+
+        if (clasFromDB == null) {
+            throw new ClassroomNotFoundException("This class is not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if (!isCreateUser(clasFromDB, email)) {
+            if (!isJoinUser(clasFromDB, email)) {
+                User user = userRepository.findByEmail(email);
+                user.getJoinClass().add(clasFromDB);
+                userRepository.save(user);
+            }
+        }
+
+        return clasFromDB;
+    }
+
+    @Override
+    public List<User> getStudentInClass(String email, Long classId) {
+        Class clas = classRepository.getById(classId);
+
+        if (clas == null) {
+            throw new ClassroomNotFoundException("This class is not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if (isCreateUser(clas, email) || isJoinUser(clas, email)) {
+            return clas.getJoinUser();
+        }
+
+        throw new ClassPermissionException("You don't have permisson to join this class", HttpStatus.FORBIDDEN);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.studyclassapp.modal;
 
 import com.example.studyclassapp.modal.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class Class {
     private Long id;
 
     private String name;
-    private String decription;
+    private String description;
     private String code;
 
     @Enumerated(EnumType.STRING)
@@ -29,6 +30,7 @@ public class Class {
     @ManyToMany(mappedBy = "joinClass")
     private List<User> joinUser;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "classs", fetch = FetchType.LAZY)
     private List<Test> testList;
 }

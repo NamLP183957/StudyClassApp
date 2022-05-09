@@ -1,14 +1,13 @@
 package com.example.studyclassapp;
 
+import com.example.studyclassapp.modal.ClassScope;
+
+import java.util.UUID;
+
 public class Demo {
 
     public static void main(String[] args) {
-        String answer = "1";
-        String[] splitAns = answer.split("_");
-
-        for (int i = 0; i < splitAns.length; i++) {
-            String ans = splitAns[i];
-            System.out.println(ans + "_");
-        }
+        ClassScope classScope = ClassScope.valueOf("PRIVATE");
+        System.out.println(classScope.values());
     }
 }

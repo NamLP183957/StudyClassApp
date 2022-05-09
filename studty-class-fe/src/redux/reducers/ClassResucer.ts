@@ -1,7 +1,9 @@
 import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons"
 import { ClassError } from "../../types/class/ClassError"
 import { ClassResponse } from "../../types/class/ClassResponse"
-import { ClassActionType, CLASS_ADDED_FAILURE, CLASS_ADDED_SUCCESS, CLASS_FETCH_FAILURE, CLASS_FETCH_SUCCESS, CLASS_LOADING } from "../action-types/ClassActionType"
+import { PaginationResponse } from "../../types/pagination/PaginationResponse"
+import { UserResponse } from "../../types/user/UserResponse"
+import { ClassActionType, CLASSES_FETCH_FAILURE, CLASSES_FETCH_SUCCESS, CLASS_ADDED_FAILURE, CLASS_ADDED_SUCCESS, CLASS_FETCH_FAILURE, CLASS_FETCH_STUDENT_FAILURE, CLASS_FETCH_STUDENT_SUCCESS, CLASS_FETCH_SUCCESS, CLASS_JOIN_CODE_FAILURE, CLASS_JOIN_CODE_SUCCESS, CLASS_LOADING, CLASS_SEARCH_FAILURE, CLASS_SEARCH_SUCCESS } from "../action-types/ClassActionType"
 
 export type InitialStateType = {
     loading: boolean
@@ -9,6 +11,8 @@ export type InitialStateType = {
     classes: Array<Partial<ClassResponse>>
     classErrors: Partial<ClassError>
     error: string
+    pagination: Partial<PaginationResponse>
+    students: Array<Partial<UserResponse>>
 }
 
 const initialState: InitialStateType = {
@@ -17,6 +21,8 @@ const initialState: InitialStateType = {
     classes: [],
     classErrors: {},
     error: "",
+    pagination: {},
+    students: []
 }
 
 const reducer = (state: InitialStateType = initialState, action: ClassActionType): InitialStateType => {
@@ -34,6 +40,30 @@ const reducer = (state: InitialStateType = initialState, action: ClassActionType
             return { ...state, loading: false, class: action.payload }
 
         case CLASS_FETCH_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case CLASSES_FETCH_SUCCESS:
+            return { ...state, loading: false, pagination: action.payload, error: '' }
+
+        case CLASSES_FETCH_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case CLASS_SEARCH_SUCCESS:
+            return { ...state, loading: false, pagination: action.payload, error: "" }
+
+        case CLASS_SEARCH_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case CLASS_JOIN_CODE_SUCCESS:
+            return { ...state, loading: false, class: action.payload }
+
+        case CLASS_JOIN_CODE_FAILURE:
+            return { ...state, loading: false, error: action.payload }
+
+        case CLASS_FETCH_STUDENT_SUCCESS:
+            return { ...state, loading: false, students: action.payload }
+
+        case CLASS_FETCH_STUDENT_FAILURE:
             return { ...state, loading: false, error: action.payload }
 
         default:

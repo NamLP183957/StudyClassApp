@@ -7,6 +7,7 @@ import { FetchClass } from '../../redux/thunks/class-thunk';
 import { ClassResponse } from '../../types/class/ClassResponse';
 import AddTest from './AddTest/AddTest';
 import './Classroom.css'
+import ListStudent from './ListStudent/ListStudent';
 import ListTest from './ListTest/ListTest';
 import Test from './Test/Test';
 
@@ -36,7 +37,15 @@ const Classroom: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
         }}>
             {loading ? <Spinner /> :
                 <>
-                    {error ? error :
+                    {error ?
+                        <div>
+                            {error} <br />
+                            Click here &nbsp;
+                            <button>join</button>
+                            &nbsp; to join this class
+                            <div>
+                            </div>
+                        </div> :
                         <div>
                             <h3>{name}</h3>
                             <div className="row">
@@ -57,12 +66,22 @@ const Classroom: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
                                         <>
 
                                         </>}
+
+                                    <NavLink
+                                        to={`/class/${classId}/list-student`}
+                                        className="account-sidebar-link nav-link"
+                                        activeClassName='is-active'
+                                    >
+                                        List Student
+                                    </NavLink>
                                 </div>
 
                                 <div className="col-sm-8">
                                     <Route path="/class/:id/list-test" exact component={(props: RouteComponentProps<{ id: string }>) => <ListTest {...props} />} />
                                     <Route path="/class/:id/add-test" exact component={AddTest} />
                                     <Route path="/class/:id/test/:testId" exact component={Test} />
+                                    <Route path="/class/:id/list-student" exact component={ListStudent} />
+
                                 </div>
                             </div>
 
